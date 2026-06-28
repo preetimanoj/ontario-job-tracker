@@ -1,7 +1,4 @@
 // src/config/keywords.config.ts
-// All job title keywords we consider relevant.
-// A job is included if its title contains ANY of these keywords.
-// Case-insensitive matching is handled in the scraper base class (coming later).
 
 export const JOB_KEYWORDS: readonly string[] = [
   // Frontend / UI
@@ -26,13 +23,33 @@ export const JOB_KEYWORDS: readonly string[] = [
   "IT Analyst",
   "Business Analyst",
   "Technical Analyst",
+  "Systems Administrator",
+  "System Administrator",
+  "Database Administrator",
+  "Database Analyst",
+  "Infrastructure",
+
+  // Network & Support
+  "Network Support",
+  "Network Analyst",
+  "Network Engineer",
+  "Network Administrator",
+  "Tech Support",
+  "Technical Support",
+  "Application Support",
+  "Tech Supp",
 
   // Data / Cloud
   "Data Analyst",
   "Data Engineer",
+  "Data Specialist",
+  "Data Scientist",
+  "Data Manager",
+  "Business Intelligence",
   "Cloud Engineer",
   "DevOps",
   "Platform Engineer",
+  "GIS",
 
   // Management / Architecture
   "IT Manager",
@@ -48,18 +65,34 @@ export const JOB_KEYWORDS: readonly string[] = [
 
   // General IT
   "Information Technology",
+  "Information & Technology",
   "Digital",
+  "I&T",
 ] as const;
 
-// Type representing any valid keyword
-// 'typeof JOB_KEYWORDS[number]' means "any string that exists in JOB_KEYWORDS"
 export type JobKeyword = (typeof JOB_KEYWORDS)[number];
 
-// Helper function — checks if a job title matches any of our keywords
-// We put it here because it's tightly related to the keywords config
 export function matchesKeyword(title: string): boolean {
   const normalizedTitle = title.toLowerCase();
   return JOB_KEYWORDS.some((keyword) =>
     normalizedTitle.includes(keyword.toLowerCase()),
+  );
+}
+
+// NEW — department-based matching
+// Some government job titles are cryptic but the department is clear
+export const IT_DEPARTMENTS: readonly string[] = [
+  "Information & Technology",
+  "Information Technology",
+  "Information and Technology",
+  "IT Services",
+  "Digital Services",
+  "Technology Services",
+] as const;
+
+export function matchesDepartment(department: string): boolean {
+  const normalizedDept = department.toLowerCase();
+  return IT_DEPARTMENTS.some((dept) =>
+    normalizedDept.includes(dept.toLowerCase()),
   );
 }

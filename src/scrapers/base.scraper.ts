@@ -6,7 +6,7 @@
 
 import crypto from "crypto";
 import { Job, Scraper, ScraperConfig, ScraperResult } from "../types";
-import { matchesKeyword } from "../config/keywords.config";
+import { matchesKeyword, matchesDepartment } from "../config/keywords.config";
 import { SCRAPER_CONFIG } from "../config/app.config";
 import { createLogger, Logger } from "../utils/logger";
 
@@ -83,7 +83,10 @@ export abstract class BaseScraper implements Scraper {
 
   // Filters a list of jobs to only those matching our keywords
   protected filterByKeyword(jobs: Job[]): Job[] {
-    const filtered = jobs.filter((job) => matchesKeyword(job.title));
+    const filtered = jobs.filter(
+      (job) =>
+        matchesKeyword(job.title) || matchesDepartment(job.department ?? ""),
+    );
 
     this.logger.debug(
       `Keyword filter: ${jobs.length} total → ${filtered.length} matched`,
