@@ -1,14 +1,13 @@
 // src/index.ts
-// Entry point for the Ontario Job Tracker
-// This file will orchestrate the entire scraping pipeline
+import { rootLogger } from "./utils";
+import { APP_CONFIG } from "./config";
 
 async function main(): Promise<void> {
-  console.log("Ontario Public Sector Job Tracker — Starting...");
-  console.log("Environment:", process.env.NODE_ENV ?? "development");
+  rootLogger.info(`${APP_CONFIG.name} v${APP_CONFIG.version}`);
+  rootLogger.info(`Environment: ${APP_CONFIG.environment}`);
 }
 
-// Self-invoking async wrapper — standard Node.js pattern for async entry points
 main().catch((error: unknown) => {
-  console.error("Fatal error:", error);
+  rootLogger.error("Fatal error", error);
   process.exit(1);
 });
